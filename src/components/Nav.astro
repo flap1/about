@@ -1,0 +1,115 @@
+---
+import Search from "@components/Search.astro";
+import ThemeToggle from "@components/ThemeToggle.astro";
+
+const currentPath = Astro.url.pathname;
+const isJa = currentPath.startsWith("/ja");
+const altLangPath = isJa ? currentPath.replace(/^\/ja/, "") || "/" : `/ja${currentPath}`;
+const altLangLabel = isJa ? "EN" : "JA";
+
+const links = [
+  { href: "/topics", label: "Topics" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/uses", label: "Uses" },
+  { href: "/now", label: "Now" },
+] as const;
+
+function isActive(href: string): boolean {
+  if (href === "/") return currentPath === "/" || currentPath === "/ja";
+  return currentPath.startsWith(href) || currentPath.startsWith(`/ja${href}`);
+}
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-border bg-background">
+  <nav class="mx-auto flex h-14 max-w-2xl items-center justify-between px-4">
+    <a href="/" class="font-display text-lg text-foreground hover:text-primary transition-colors">
+      flap1
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-1">
+      {links.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'px-3 py-1.5 text-sm rounded-md transition-colors',
+            isActive(href)
+              ? 'text-foreground bg-secondary'
+              : 'text-muted-foreground hover:text-foreground hover:bg-secondary',
+          ]}
+          {...(isActive(href) ? { 'aria-current': 'page' } : {})}
+        >
+          {label}
+        </a>
+      ))}
+      <a
+        href={altLangPath}
+        class="px-2 py-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+        aria-label={isJa ? 'Switch to English' : 'Switch to Japanese'}
+      >
+        {altLangLabel}
+      </a>
+      <Search />
+      <ThemeToggle />
+    </div>
+
+    <!-- Mobile nav toggle -->
+    <div class="flex md:hidden items-center gap-2">
+      <a
+        href={altLangPath}
+        class="px-2 py-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {altLangLabel}
+      </a>
+      <Search />
+      <ThemeToggle />
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background">
+    <div class="mx-auto max-w-2xl px-4 py-3 space-y-1">
+      {links.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'block px-3 py-2 text-sm rounded-md transition-colors',
+            isActive(href)
+              ? 'text-foreground bg-secondary'
+              : 'text-muted-foreground hover:text-foreground hover:bg-secondary',
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupMobileMenu() {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle?.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      menu?.classList.toggle('hidden');
+    });
+  }
+  setupMobileMenu();
+  document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>

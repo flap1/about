@@ -1,0 +1,4 @@
+Contact: https://github.com/flap1/about/issues
+Expires: 2027-03-25T00:00:00.000Z
+Preferred-Languages: en, ja
+Canonical: https://flap1.com/.well-known/security.txt

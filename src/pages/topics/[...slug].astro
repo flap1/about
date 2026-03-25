@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const allTopics = await getCollection("topics");
+  const sorted = allTopics
+    .filter((t) => !t.data.draft)
+    .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+
+  return sorted.map((topic, i) => ({
+    params: { slug: topic.id },
+    props: {
+      topic,
+      prevTopic: i > 0 ? sorted[i - 1] : null,
+      nextTopic: i < sorted.length - 1 ? sorted[i + 1] : null,
+    },
+  }));
+}
+
+const { topic, prevTopic, nextTopic } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await render(topic);
+const minutesRead = remarkPluginFrontmatter.minutesRead as string;
+---
+
+<BaseLayout
+  title={topic.data.title}
+  description={topic.data.description}
+  lang={topic.data.lang}
+  ogImage={topic.data.ogImage}
+>
+  <article class="mx-auto max-w-2xl px-4 py-16">
+    <header class="pb-8 border-b border-border">
+      <div class="flex items-center gap-3 text-sm text-muted-foreground">
+        <time datetime={topic.data.pubDate.toISOString()}>
+          {topic.data.pubDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+        {minutesRead && (
+          <>
+            <span aria-hidden="true">&middot;</span>
+            <span>{minutesRead}</span>
+          </>
+        )}
+      </div>
+      <h1 class="mt-3 text-3xl font-display tracking-tight">{topic.data.title}</h1>
+      <p class="mt-2 text-lg text-muted-foreground">{topic.data.description}</p>
+      {topic.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {topic.data.tags.map((tag) => (
+            <span class="px-2.5 py-0.5 text-xs rounded-full border border-border text-muted-foreground">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose mt-8">
+      <Content />
+    </div>
+
+    <nav class="mt-12 pt-8 border-t border-border" aria-label="Post navigation">
+      <div class="flex justify-between gap-4">
+        {prevTopic ? (
+          <a
+            href={`/topics/${prevTopic.id}`}
+            rel="prev"
+            aria-label={`Previous: ${prevTopic.data.title}`}
+            class="group flex flex-col items-start max-w-[45%]"
+          >
+            <span class="text-xs text-muted-foreground">&larr; Previous</span>
+            <span class="text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
+              {prevTopic.data.title}
+            </span>
+          </a>
+        ) : <div />}
+        {nextTopic ? (
+          <a
+            href={`/topics/${nextTopic.id}`}
+            rel="next"
+            aria-label={`Next: ${nextTopic.data.title}`}
+            class="group flex flex-col items-end max-w-[45%] ml-auto"
+          >
+            <span class="text-xs text-muted-foreground">Next &rarr;</span>
+            <span class="text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
+              {nextTopic.data.title}
+            </span>
+          </a>
+        ) : null}
+      </div>
+      <div class="mt-6">
+        <a href="/topics" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          &larr; All Topics
+        </a>
+      </div>
+    </nav>
+  </article>
+</BaseLayout>

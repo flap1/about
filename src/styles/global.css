@@ -1,0 +1,461 @@
+/* Fonts */
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/noto-sans-jp";
+@import "@fontsource/space-mono";
+
+@import "tailwindcss";
+
+/* ============================================================
+   Design Tokens
+   ============================================================ */
+@theme {
+  --color-*: initial;
+
+  /* ------------------------------------------------------------------
+     Primitive: Brown (coffee / earth) -- seed #8B5A2B
+     ------------------------------------------------------------------ */
+  --color-brown-50: oklch(0.951 0.023 52.71);
+  --color-brown-100: oklch(0.909 0.043 53.5);
+  --color-brown-200: oklch(0.808 0.106 58.07);
+  --color-brown-300: oklch(0.715 0.125 62.25);
+  --color-brown-400: oklch(0.612 0.107 62.41);
+  --color-brown-500: oklch(0.512 0.09 62.2);
+  --color-brown-600: oklch(0.436 0.076 61.99);
+  --color-brown-700: oklch(0.366 0.065 61.5);
+  --color-brown-800: oklch(0.288 0.05 63.47);
+  --color-brown-900: oklch(0.219 0.039 62.58);
+  --color-brown-950: oklch(0.164 0.028 59.93);
+
+  /* ------------------------------------------------------------------
+     Primitive: Green (nature / forest) -- seed #047857
+     ------------------------------------------------------------------ */
+  --color-green-50: oklch(0.937 0.095 165.43);
+  --color-green-100: oklch(0.882 0.182 165.52);
+  --color-green-200: oklch(0.791 0.164 165.37);
+  --color-green-300: oklch(0.697 0.144 165.61);
+  --color-green-400: oklch(0.606 0.125 165.67);
+  --color-green-500: oklch(0.508 0.105 165.61);
+  --color-green-600: oklch(0.437 0.09 165.85);
+  --color-green-700: oklch(0.363 0.075 165.33);
+  --color-green-800: oklch(0.285 0.059 165.54);
+  --color-green-900: oklch(0.208 0.044 165.46);
+  --color-green-950: oklch(0.161 0.034 165.47);
+
+  /* ------------------------------------------------------------------
+     Primitive: Stone (warm neutral)
+     ------------------------------------------------------------------ */
+  --color-stone-50: oklch(0.985 0.001 106.42);
+  --color-stone-100: oklch(0.970 0.001 106.42);
+  --color-stone-200: oklch(0.923 0.003 48.72);
+  --color-stone-300: oklch(0.869 0.005 56.37);
+  --color-stone-400: oklch(0.709 0.01 56.26);
+  --color-stone-500: oklch(0.553 0.013 58.07);
+  --color-stone-600: oklch(0.444 0.011 73.64);
+  --color-stone-700: oklch(0.374 0.01 67.56);
+  --color-stone-800: oklch(0.268 0.007 34.3);
+  --color-stone-900: oklch(0.216 0.006 56.04);
+  --color-stone-950: oklch(0.147 0.004 49.25);
+
+  /* ------------------------------------------------------------------
+     Primitive: Static
+     ------------------------------------------------------------------ */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* ------------------------------------------------------------------
+     Semantic: mapped from CSS variables (mode-switching below)
+     shadcn/ui compatible naming
+     ------------------------------------------------------------------ */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* ------------------------------------------------------------------
+     Fonts
+     ------------------------------------------------------------------ */
+  --font-display: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", "Noto Sans JP Variable", "Noto Sans JP", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ------------------------------------------------------------------
+     Typography scale
+     ------------------------------------------------------------------ */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.625;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.625;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.35;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.25;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.15;
+
+  /* ------------------------------------------------------------------
+     Radius (shadcn compatible)
+     ------------------------------------------------------------------ */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* ------------------------------------------------------------------
+     Animation
+     ------------------------------------------------------------------ */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+}
+
+/* ============================================================
+   Mode: Light (Kinari / wabi-sabi)
+   ============================================================ */
+@layer base {
+  :root {
+    --background: var(--color-stone-50);
+    --foreground: var(--color-stone-900);
+    --card: var(--color-white);
+    --card-foreground: var(--color-stone-900);
+    --popover: var(--color-white);
+    --popover-foreground: var(--color-stone-900);
+    --primary: var(--color-brown-600);
+    --primary-foreground: var(--color-white);
+    --secondary: var(--color-stone-100);
+    --secondary-foreground: var(--color-stone-900);
+    --muted: var(--color-stone-200);
+    --muted-foreground: var(--color-stone-500);
+    --accent: var(--color-green-600);
+    --accent-foreground: var(--color-white);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: var(--color-stone-200);
+    --input: var(--color-stone-200);
+    --ring: var(--color-brown-500);
+  }
+
+  /* ============================================================
+     Mode: Dark (Sumi / cosmic) -- DEFAULT
+     ============================================================ */
+  .dark {
+    --background: var(--color-stone-950);
+    --foreground: var(--color-stone-100);
+    --card: var(--color-stone-900);
+    --card-foreground: var(--color-stone-100);
+    --popover: var(--color-stone-900);
+    --popover-foreground: var(--color-stone-100);
+    --primary: var(--color-brown-300);
+    --primary-foreground: var(--color-stone-950);
+    --secondary: var(--color-stone-800);
+    --secondary-foreground: var(--color-stone-100);
+    --muted: var(--color-stone-800);
+    --muted-foreground: var(--color-stone-400);
+    --accent: var(--color-green-400);
+    --accent-foreground: var(--color-stone-950);
+    --destructive: oklch(0.704 0.191 22);
+    --border: var(--color-stone-800);
+    --input: var(--color-stone-800);
+    --ring: var(--color-brown-400);
+  }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+html {
+  color-scheme: dark light;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* ============================================================
+   Prose (article content)
+   Uses semantic tokens, not raw values
+   ============================================================ */
+.prose {
+  line-height: 1.75;
+  max-width: 65ch;
+}
+
+.prose > * + * {
+  margin-top: 1.25rem;
+}
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-foreground);
+}
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-foreground);
+}
+
+.prose p {
+  color: var(--color-foreground);
+}
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+.prose a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.375rem;
+}
+
+.prose li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: 1rem;
+  color: var(--color-muted-foreground);
+  font-style: italic;
+}
+
+.prose hr {
+  border-color: var(--color-border);
+  margin: 2.5rem 0;
+}
+
+.prose code:not(pre code) {
+  background-color: var(--color-muted);
+  color: var(--color-foreground);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875em;
+}
+
+.prose img {
+  border-radius: var(--radius-lg);
+  margin: 1.5rem 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.prose td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prose pre {
+  border-radius: var(--radius-lg);
+  margin: 1.5rem 0;
+}
+
+/* ============================================================
+   Pagefind search UI theme
+   ============================================================ */
+:root {
+  --pagefind-ui-scale: 0.85;
+  --pagefind-ui-primary: var(--accent);
+  --pagefind-ui-text: var(--foreground);
+  --pagefind-ui-background: var(--card);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--muted);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 0.375rem;
+  --pagefind-ui-image-border-radius: 0.5rem;
+  --pagefind-ui-image-box-ratio: 3 / 2;
+  --pagefind-ui-font: var(--font-body);
+}
+
+/* Override pagefind internal styles for dark mode */
+.pagefind-ui__result {
+  border-top-color: var(--border);
+  padding: 0.75rem 0;
+}
+
+.pagefind-ui__result-link {
+  color: var(--foreground);
+  font-size: 0.9375rem;
+}
+
+.pagefind-ui__result-excerpt {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.pagefind-ui__result-nested {
+  padding-left: 1rem;
+}
+
+.pagefind-ui__result-title {
+  font-weight: 500;
+}
+
+.pagefind-ui mark {
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.pagefind-ui__search-input {
+  background-color: transparent;
+  color: var(--foreground);
+  border: none;
+  box-shadow: none;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.pagefind-ui__search-input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.pagefind-ui__search-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.pagefind-ui__form {
+  border-bottom: 1px solid var(--border);
+}
+
+.pagefind-ui__drawer {
+  border-top: none;
+}
+
+.pagefind-ui__search-clear {
+  color: var(--muted-foreground);
+}
+
+.pagefind-ui__message {
+  color: var(--muted-foreground);
+}
+
+.pagefind-ui__button {
+  background-color: var(--secondary);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+/* Loading skeleton placeholder */
+.pagefind-ui__result-thumb,
+.pagefind-ui__loading {
+  background-color: var(--muted);
+  border-radius: 4px;
+}
+
+.pagefind-ui__result-link:empty::before,
+.pagefind-ui__result-excerpt:empty::before {
+  content: "";
+  display: block;
+  height: 1em;
+  background-color: var(--muted);
+  border-radius: 4px;
+}

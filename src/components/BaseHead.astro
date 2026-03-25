@@ -1,0 +1,59 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  lang: "en" | "ja";
+  ogImage?: string | undefined;
+  canonicalUrl?: string | undefined;
+}
+
+const { title, description, lang, ogImage = "/og-default.png", canonicalUrl } = Astro.props;
+
+const siteTitle = "flap1";
+const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+const site = Astro.site ?? new URL("https://flap1.com");
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, site);
+const ogImageUrl = new URL(ogImage, site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Favicon -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#faf8f6" media="(prefers-color-scheme: light)" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'en_US'} />
+<meta property="og:site_name" content={siteTitle} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<!-- i18n hreflang -->
+<link rel="alternate" hreflang="en" href={new URL(Astro.url.pathname.replace(/^\/ja/, ''), Astro.site)} />
+<link rel="alternate" hreflang="ja" href={new URL(`/ja${Astro.url.pathname}`, Astro.site)} />
+<link rel="alternate" hreflang="x-default" href={new URL(Astro.url.pathname.replace(/^\/ja/, ''), Astro.site)} />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />

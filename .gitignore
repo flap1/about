@@ -1,0 +1,76 @@
+# === Build output ===
+dist/
+.vite/
+
+# === Astro generated ===
+.astro/
+
+# === Dependencies ===
+node_modules/
+.pnpm-store/
+
+# === Logs ===
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Environment variables and secrets ===
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+Desktop.ini
+._*
+
+# === Editor / IDE ===
+.idea/
+*.swp
+*.swo
+.vscode/settings.json
+
+# === TypeScript ===
+*.tsbuildinfo
+
+# === Native addons ===
+*.node
+
+# === Test output ===
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# === Claude Code ===
+.claude/settings.local.json
+
+# === mise ===
+mise.local.toml
+mise.*.local.toml
+
+# === Terraform ===
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/*.tfvars
+infra/*.tfvars.json
+infra/tfplan
+infra/*.tfplan
+infra/crash.log
+infra/crash.*.log
+infra/override.tf
+infra/override.tf.json
+infra/*_override.tf
+infra/*_override.tf.json
+infra/.terraformrc
+infra/terraform.rc
