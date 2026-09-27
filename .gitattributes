@@ -1,18 +1,13 @@
 * text=auto eol=lf
-*.astro text eol=lf linguist-language=Astro
 *.js text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.jsx text eol=lf
-*.mjs text eol=lf
 *.css text eol=lf
 *.json text eol=lf
 *.html text eol=lf
 *.md text eol=lf linguist-documentation
-*.mdx text eol=lf linguist-documentation
 *.yaml text eol=lf
 *.yml text eol=lf
 *.svg text eol=lf
+*.py text eol=lf
 *.png binary
 *.jpg binary
 *.jpeg binary
@@ -23,6 +18,3 @@
 *.woff binary
 *.woff2 binary
 *.ttf binary
-*.riv binary
-*.lottie binary
-pnpm-lock.yaml -diff

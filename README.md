@@ -1,43 +1,27 @@
-# Astro Starter Kit: Minimal
+# shoichiseto.com
+
+Static site. No build step, just open `index.html`.
+
+## Structure
+
+- `index.html` / `research.html` / `work.html` / `notes.html` / `about.html` / `hobbies.html`
+- `style.css`, `script.js` (language toggle, Tokyo clock, email copy)
+- `assets/` — images and SVGs
+- `tools/make_portable.py` — bundles the site into a single HTML file (`README.md` / `tools/` / `tests/` are excluded from deploys)
+
+## Deploy
+
+`shoichiseto.com` is canonical; `flap1.com` 301-redirects to it. Hosted on AWS (S3 + CloudFront), managed from the `about` repo's `infra/`. URLs are extensionless (`/about`, not `/about.html`).
 
 ```sh
-pnpm create astro@latest -- --template minimal
+aws s3 sync . "s3://<content_bucket_name>" --exclude "README.md" --exclude "tools/*" --exclude "tests/*" --profile flap1
+aws cloudfront create-invalidation --distribution-id "<cloudfront_distribution_id>" --paths "/*" --profile flap1
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Get the bucket name and distribution ID with `terraform -chdir=infra output`.
 
-## 🚀 Project Structure
+## Editing
 
-Inside of your Astro project, you'll see the following folders and files:
+Copy lives in each HTML file's `data-en` / `data-ja` attributes. Colors are CSS variables at the top of `style.css`. If the inline bootstrap script changes, recompute its CSP hash (`infra/main.tf`).
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+No analytics, cookies, or tracking. Only the language preference is stored in `localStorage`.

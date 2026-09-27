@@ -1,6 +1,6 @@
 ---
 name: a11y-check
-description: Run accessibility audit on the built site. Use when the user says "check accessibility", "a11y audit", "WCAG check", or "accessibility review".
+description: Run accessibility audit on the site. Use when the user says "check accessibility", "a11y audit", "WCAG check", or "accessibility review".
 ---
 
 # Accessibility Audit
@@ -8,11 +8,11 @@ description: Run accessibility audit on the built site. Use when the user says "
 ## Quick Check
 
 ```bash
-pnpm build && pnpm preview &
-sleep 3
-npx pa11y http://localhost:4321/
-npx pa11y http://localhost:4321/about
-npx pa11y http://localhost:4321/blog
+python3 -m http.server 8080 &
+sleep 1
+npx pa11y http://localhost:8080/
+npx pa11y http://localhost:8080/about
+npx pa11y http://localhost:8080/research
 ```
 
 ## Manual Review Points

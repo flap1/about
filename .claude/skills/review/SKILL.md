@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review code quality, accessibility, performance, and design system compliance. Use when the user says "review", "check quality", "audit", or before creating a PR.
+description: Review code quality, accessibility, performance, and security. Use when the user says "review", "check quality", "audit", or before creating a PR.
 ---
 
 # Code Review
@@ -9,41 +9,30 @@ Perform a thorough review of recent changes.
 
 ## Review Checklist
 
-### Type Safety
-- [ ] No `any` types (strictest mode)
-- [ ] Content collections have Zod schemas
-- [ ] Props interfaces defined on all components
-- [ ] `astro check` passes with 0 errors
-
 ### Performance
-- [ ] Images use `<Image>` or `<Picture>` from astro:assets (not raw `<img>`)
-- [ ] No unnecessary `client:load` (prefer `client:visible` or `client:idle`)
-- [ ] CJK fonts use Google Fonts auto-slicing or subsetting
-- [ ] No blocking third-party scripts
-- [ ] Page weight under 500KB
+- Images are compressed and served as webp/svg
+- CloudFront serves Brotli/gzip (`content-encoding` header) and long cache for `assets/`
+- No blocking third-party scripts, no external font/CDN loads
 
 ### Accessibility (WCAG 2.2 AA)
-- [ ] All images have meaningful alt text (or `alt=""` for decorative)
-- [ ] Heading hierarchy is correct (no skipped levels)
-- [ ] Focus styles are visible
-- [ ] `prefers-reduced-motion` respected for animations
-- [ ] Color contrast meets 4.5:1 for body text, 3:1 for large text
-- [ ] `lang` attribute set correctly (en/ja)
-
-### Design System
-- [ ] Uses semantic color tokens (not raw hex/oklch values)
-- [ ] Uses font-display / font-body / font-mono (not arbitrary font families)
-- [ ] Consistent spacing using Tailwind utilities
+- All images have meaningful alt text (or `alt=""` for decorative)
+- Heading hierarchy is correct (no skipped levels)
+- Focus styles are visible; nothing traps focus
+- `prefers-reduced-motion` respected for animations
+- `lang` attribute set correctly (en/ja) via `data-lang`
+- `aria-current="page"` on the active nav link
 
 ### Security
-- [ ] No `set:html` with unsanitized input
-- [ ] External links have `rel="noopener noreferrer"`
-- [ ] No secrets in `PUBLIC_*` env vars
+- No inline `style=""` (CSP has no `unsafe-inline` for styles)
+- If the inline bootstrap `<script>` changes, its CSP hash in `infra/main.tf` must be recomputed
+- External links have `rel="noopener noreferrer"`
+- No secrets, API keys, or credentials in any tracked file (`gitleaks dir .`)
 
 ### Content
-- [ ] No spelling errors in visible text
-- [ ] Links are not broken
-- [ ] MDX frontmatter matches Zod schema
+- Both `data-en` and `data-ja` attributes updated together
+- No spelling errors in visible text
+- Internal links use the extensionless form (`about`, not `about.html`)
+- No broken links
 
 ## Output
 
