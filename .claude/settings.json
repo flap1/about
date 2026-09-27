@@ -1,29 +1,17 @@
 {
   "$schema": "https://json-schema.store.org/claude-code-settings.json",
+  "attribution": {
+    "pr": "",
+    "sessionUrl": false
+  },
   "permissions": {
     "allow": [
-      "Bash(pnpm *)",
-      "Bash(npx astro *)",
       "Bash(git *)",
       "Bash(ls *)",
       "Bash(mkdir *)",
       "Read",
       "Glob",
       "Grep"
-    ]
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // empty'); if [ -n \"$FILE\" ] && echo \"$FILE\" | grep -qE '\\.(ts|tsx|js|jsx|json|css)$'; then cd /home/flap1/ghq/github.com/flap1/about && npx biome check --write \"$FILE\" 2>/dev/null || true; fi",
-            "timeout": 10
-          }
-        ]
-      }
     ]
   }
 }

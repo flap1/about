@@ -1,28 +1,38 @@
-// CloudFront Function: URL rewrite for Astro static site
-// Handles trailingSlash: 'never' + format: 'directory'
-// /path -> /path/index.html
-// /path/ -> /path/index.html
+// CloudFront Function: clean URLs for a flat-file static site (page.html at
+// the bucket root, no per-page directories).
+// /about        -> serves /about.html (internal rewrite, URL stays clean)
+// /about.html   -> 301 redirect to /about (canonicalizes old/typed-in links)
+// /index.html   -> 301 redirect to /
+// / and any URI with a real extension (.css, .webp, ...) pass through as-is
 function handler(event) {
   var request = event.request;
   var uri = request.uri;
 
-  // If URI has a file extension, serve as-is
-  if (uri.includes('.')) {
+  if (uri === '/index.html') {
+    return {
+      statusCode: 301,
+      statusDescription: 'Moved Permanently',
+      headers: { location: { value: '/' } }
+    };
+  }
+
+  if (uri.endsWith('.html')) {
+    return {
+      statusCode: 301,
+      statusDescription: 'Moved Permanently',
+      headers: { location: { value: uri.slice(0, -5) } }
+    };
+  }
+
+  // Root or any other extensioned asset (css/js/webp/svg/...): serve as-is.
+  if (uri === '/' || uri.includes('.')) {
     return request;
   }
 
-  // Strip trailing slash (except root)
+  // Extensionless page request -> map to the matching .html file.
   if (uri.endsWith('/') && uri !== '/') {
     uri = uri.slice(0, -1);
   }
-
-  // Root path
-  if (uri === '' || uri === '/') {
-    request.uri = '/index.html';
-    return request;
-  }
-
-  // Append /index.html for directory-style routes
-  request.uri = uri + '/index.html';
+  request.uri = uri + '.html';
   return request;
 }
