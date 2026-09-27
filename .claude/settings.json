@@ -1,7 +1,8 @@
 {
   "$schema": "https://json-schema.store.org/claude-code-settings.json",
   "attribution": {
-    "pr": ""
+    "pr": "",
+    "sessionUrl": false
   },
   "permissions": {
     "allow": [
